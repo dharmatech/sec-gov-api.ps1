@@ -6,6 +6,10 @@ function get-recent-filings ([string]$cik)
 {
     $cik_padded = $cik.PadLeft(10, '0')
 
+    # $SEC_GOV_USER_AGENT should be set to something like this:
+    # 
+    # 'company-name   contact@company.com'
+
     $result = Invoke-RestMethod "https://data.sec.gov/submissions/CIK$cik_padded.json" -Headers @{ 'User-Agent' = $SEC_GOV_USER_AGENT } 
 
     for ($i = 0; $i -lt $result.filings.recent.accessionNumber.Count; $i++)
@@ -74,14 +78,14 @@ function get-recent-filings ([string]$cik)
 
 
 
-$filings | Select-Object -First 40 | ft *
+# $filings | Select-Object -First 40 | ft *
 
 
 # $filings | ? form -EQ 4 | Sort-Object filingDate -Descending | Select-Object -First 40 | ft *
 
-$filings | ? form -EQ 4 | Select-Object -First 40 | ft *
+# $filings | ? form -EQ 4 | Select-Object -First 40 | ft *
 
-$filing = $filings | ? acceptanceDateTime -EQ '2023-06-27T17:48:16.000Z'
+# $filing = $filings | ? acceptanceDateTime -EQ '2023-06-27T17:48:16.000Z'
 
 # $filing = $filings_form_4[0]
 
